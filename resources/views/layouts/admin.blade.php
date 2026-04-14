@@ -1,175 +1,149 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'si-lapor') }}</title>
+    <title>{{ config('app.name', 'Malimo Report') }} - Panel Admin</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, .font-public-sans { font-family: 'Public Sans', sans-serif; }
+    </style>
 </head>
-
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-800">
-        @include('layouts.navigation')
-
-        <!-- Modern Responsive Layout with Sidebar -->
-        <div class="min-h-screen flex bg-gradient-to-br from-blue-50 via-white to-blue-100">
-            <!-- Sidebar -->
-            <input type="checkbox" id="sidebar-toggle" class="hidden peer" />
-            <aside
-                class="fixed z-30 inset-y-0 left-0 w-64 bg-white/90 backdrop-blur-lg border-r border-blue-100 shadow-xl flex flex-col transform -translate-x-full transition-transform duration-200 ease-in-out peer-checked:translate-x-0 md:static md:translate-x-0 md:w-72 md:flex md:z-auto">
-                <div class="flex items-center gap-3 mb-10 px-4 pt-6">
-                    <span
-                        class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-blue-400 to-blue-600 shadow-lg">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"
-                                fill="none" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12l2 2 4-4" />
-                        </svg>
-                    </span>
-                    <span class="text-2xl font-bold text-blue-700 tracking-wide">SI-Lapor</span>
-                </div>
-                <nav class="flex-1">
-                    <ul class="space-y-3">
-                        <li>
-                            <a href="{{ route('users.dashboard') }}"
-                                class="group flex items-center py-3 px-5 rounded-xl transition-colors font-medium relative
-                                    {{ request()->routeIs('admin.dashboard') ? 'bg-blue-300' : '' }}"
-                                style="width: calc(90% - 10px); margin-left: 20px">
-                                <span
-                                    class="absolute inset-0 rounded-xl group-hover:bg-blue-100 transition-colors -z-10"></span>
-                                <svg class="w-6 h-6 mr-4 text-blue-200" fill="none" stroke="currentColor"
-                                    stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h3m10-11v10a1 1 0 01-1 1h-3m-6 0h6" />
-                                </svg>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.pengaduan.index') }}"
-                                class="group flex items-center py-3 px-5 rounded-xl transition-colors font-medium relative
-                                    {{ request()->routeIs('admin.pengaduan.*') ? 'bg-blue-300' : '' }}"
-                                style="width: calc(90% - 10px); margin-left: 20px">
-                                <span
-                                    class="absolute inset-0 rounded-xl group-hover:bg-blue-100 transition-colors -z-10"></span>
-                                <svg class="w-6 h-6 mr-4 text-blue-200" fill="none" stroke="currentColor"
-                                    stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
-                                </svg>
-                                Kelola Pengaduan
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.users.index') }}"
-                                class="group flex items-center py-3 px-5 rounded-xl transition-colors font-medium relative
-                                    {{ request()->routeIs('admin.users.*') ? 'bg-blue-300' : '' }}"
-                                style="width: calc(90% - 10px); margin-left: 20px">
-                                <span
-                                    class="absolute inset-0 rounded-xl group-hover:bg-blue-100 transition-colors -z-10"></span>
-                                <svg class="w-6 h-6 mr-4 text-blue-200" fill="none" stroke="currentColor"
-                                    stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-5a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 10-8 0 4 4 0 008 0z" />
-                                </svg>
-                                Kelola Pelapor
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.kategori.index') }}"
-                                class="group flex items-center py-3 px-5 rounded-xl transition-colors font-medium relative
-                                    {{ request()->routeIs('admin.categories.*') ? 'bg-blue-300' : '' }}"
-                                style="width: calc(90% - 10px); margin-left: 20px">
-                                <span
-                                    class="absolute inset-0 rounded-xl group-hover:bg-blue-100 transition-colors -z-10"></span>
-                                <svg class="w-6 h-6 mr-4 text-blue-200" fill="none" stroke="currentColor"
-                                    stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                                Kelola Kategori
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('admin.warga.index') }}"
-                                class="group flex items-center py-3 px-5 rounded-xl transition-colors font-medium relative
-                                    {{ request()->routeIs('admin.warga.*') ? 'bg-blue-300' : '' }}"
-                                style="width: calc(90% - 10px); margin-left: 20px">
-                                <span
-                                    class="absolute inset-0 rounded-xl group-hover:bg-blue-100 transition-colors -z-10"></span>
-                                <svg class="w-6 h-6 mr-4 text-blue-200" fill="none" stroke="currentColor"
-                                    stroke-width="2" vi ewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M16 11c1.657 0 3 1.343 3 3v4H5v-4c0-1.657 1.343-3 3-3h8zm-4-4a4 4 0 110 8 4 4 0 010-8z" />
-                                </svg>
-                                Warga Terdaftar
-                            </a>
-                        </li>
-
-                    </ul>
-                </nav>
-                <div class="mt-auto px-4 pb-6">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit"
-                            class="w-full flex items-center gap-3 py-2 px-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold shadow transition-all">
-                            <svg class="w-6 h-6 text-blue-200" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
-                            </svg>
-                            Logout
-                        </button>
-                    </form>
-                </div>
-            </aside>
-
-            <!-- Sidebar Toggle Button (Mobile) -->
-            <label for="sidebar-toggle"
-                class="md:hidden fixed z-40 top-4 left-4 bg-blue-600 text-white p-2 rounded-full shadow-lg cursor-pointer">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </label>
-            <!-- Overlay for Sidebar (Mobile) -->
-            <label for="sidebar-toggle"
-                class="fixed inset-0 bg-white bg-opacity-40 z-20 hidden peer-checked:block md:hidden"></label>
-
-            <!-- Main Content -->
-            <main class="flex-1 p-5 md:p-8 mt-14 md:mt-0 w-full max-w-6xl mx-auto transition-all duration-300">
-                <header class="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <h1 class="text-4xl font-black text-blue-800 tracking-tight leading-tight drop-shadow-sm">
-                        @yield('title', 'Dashboard')</h1>
-                    @hasSection('actions')
-                        <div class="flex gap-2">
-                            @yield('actions')
-                        </div>
-                    @endif
-                </header>
-                <div class="space-y-8">
-                    @yield('content')
-                </div>
+<body class="bg-[#f7f9fb] text-[#191c1e] antialiased">
+    <!-- SideNavBar -->
+    <aside class="h-screen w-64 fixed left-0 top-0 border-r border-slate-200 bg-white flex flex-col p-4 space-y-2 z-40 transition-all duration-300 transform md:translate-x-0 -translate-x-full" id="adminSidebar">
+        <div class="mb-8 px-4 pt-4 flex items-center gap-3">
+            <div class="w-10 h-10 shrink-0 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
+                <img src="{{ asset('img/logo.png') }}" alt="Logo" class="w-7 h-7 object-contain brightness-0 invert">
+            </div>
+            <div>
+                <h1 class="text-lg font-black text-indigo-900 leading-none">MALIMO</h1>
+                <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Report System</p>
+            </div>
         </div>
-        </main>
-    </div>
+        
+        <nav class="flex-1 space-y-1">
+            <a href="{{ route('admin.dashboard') }}" 
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.dashboard') ? 'bg-indigo-50 text-indigo-900 font-bold shadow-sm border border-indigo-100' : 'text-slate-500 hover:bg-slate-50 hover:translate-x-1' }}">
+                <span class="material-symbols-outlined text-xl">dashboard</span>
+                <span class="text-sm">Dashboard</span>
+            </a>
 
-    </div>
+            <a href="{{ route('admin.pengaduan.index') }}" 
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.pengaduan.*') ? 'bg-indigo-50 text-indigo-900 font-bold shadow-sm border border-indigo-100' : 'text-slate-500 hover:bg-slate-50 hover:translate-x-1' }}">
+                <span class="material-symbols-outlined text-xl">description</span>
+                <span class="text-sm">Manajemen Aspirasi</span>
+            </a>
+
+            <a href="{{ route('admin.users.index') }}" 
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.users.*') ? 'bg-indigo-50 text-indigo-900 font-bold shadow-sm border border-indigo-100' : 'text-slate-500 hover:bg-slate-50 hover:translate-x-1' }}">
+                <span class="material-symbols-outlined text-xl">how_to_reg</span>
+                <span class="text-sm">Validasi Akun</span>
+            </a>
+
+            <div class="pt-4 pb-2 px-4 uppercase text-[10px] font-black text-slate-400 tracking-widest">Sistem</div>
+
+            <a href="{{ route('admin.kategori.index') }}" 
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.kategori.*') ? 'bg-indigo-50 text-indigo-900 font-bold shadow-sm border border-indigo-100' : 'text-slate-500 hover:bg-slate-50 hover:translate-x-1' }}">
+                <span class="material-symbols-outlined text-xl">category</span>
+                <span class="text-sm">Bidang Layanan</span>
+            </a>
+
+            <a href="{{ route('admin.warga.index') }}" 
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.warga.*') ? 'bg-indigo-50 text-indigo-900 font-bold shadow-sm border border-indigo-100' : 'text-slate-500 hover:bg-slate-50 hover:translate-x-1' }}">
+                <span class="material-symbols-outlined text-xl">database</span>
+                <span class="text-sm">Database Warga</span>
+            </a>
+        </nav>
+
+        <div class="pt-4 mt-4 border-t border-slate-100">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-red-500 font-bold text-sm hover:bg-red-50 rounded-xl transition-all">
+                    <span class="material-symbols-outlined text-xl">logout</span>
+                    Keluar Sistem
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- Overlay Mobile -->
+    <div class="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 hidden md:hidden" id="adminSidebarOverlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="md:ml-64 p-4 md:p-8 min-h-screen">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-10">
+            <div class="flex items-center gap-4">
+                <button class="md:hidden p-2 text-indigo-900 bg-white rounded-lg shadow-sm border border-slate-100" id="adminSidebarToggle">
+                    <span class="material-symbols-outlined">menu_open</span>
+                </button>
+                <div>
+                    <span class="text-indigo-600 font-black text-[10px] uppercase tracking-widest mb-0.5 block">Sovereign Service</span>
+                    <h2 class="text-2xl md:text-3xl font-black text-[#191c1e] tracking-tight">Panel Pengelolaan</h2>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-black text-[#191c1e]">{{ Auth::user()->name }}</p>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Administrator</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl overflow-hidden bg-indigo-100 border-2 border-white shadow-sm flex items-center justify-center">
+                    <span class="text-indigo-700 font-black text-xl">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Content -->
+        <div class="max-w-7xl mx-auto">
+            @yield('content')
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 pb-8">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">© 2024 Malimo Report. All rights reserved.</p>
+            <div class="flex gap-6 uppercase text-[10px] font-black text-slate-400 tracking-widest">
+                <a href="#" class="hover:text-indigo-600 transition-colors">Bantuan</a>
+                <a href="#" class="hover:text-indigo-600 transition-colors">Keamanan</a>
+                <a href="#" class="hover:text-indigo-600 transition-colors">Log Sistem</a>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('adminSidebarToggle');
+            const sidebar = document.getElementById('adminSidebar');
+            const overlay = document.getElementById('adminSidebarOverlay');
+
+            if (toggle) {
+                toggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('-translate-x-full');
+                    overlay.classList.toggle('hidden');
+                });
+            }
+
+            if (overlay) {
+                overlay.addEventListener('click', () => {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                });
+            }
+        });
+    </script>
 </body>
-<!-- Bootstrap 5 JS Bundle CDN -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </html>

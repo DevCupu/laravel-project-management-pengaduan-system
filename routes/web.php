@@ -12,7 +12,13 @@ use App\Http\Middleware\VerifiedUser;
 use Illuminate\Support\Facades\Auth;
 
 // Halaman Utama
-Route::get('/', fn() => view('welcome'));
+Route::get('/', function () {
+    return view('welcome', [
+        'total' => \App\Models\Pengaduan::count(),
+        'terverifikasi' => \App\Models\Pengaduan::where('status', '!=', 'pending')->count(),
+        'selesai' => \App\Models\Pengaduan::where('status', 'selesai')->count(),
+    ]);
+});
 
 // Auto redirect dashboard berdasarkan role
 Route::get('/dashboard', function () {

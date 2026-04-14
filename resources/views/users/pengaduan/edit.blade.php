@@ -1,96 +1,72 @@
 @extends('layouts.users')
 
 @section('content')
-    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow p-8">
-        <h2 class="text-2xl font-bold mb-6 text-gray-800">Edit Pengaduan</h2>
+    <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-8 border border-gray-100 mt-6">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-3xl font-extrabold text-gray-900">Ubah Aspirasi / Keluhan</h2>
+            <a href="{{ route('users.pengaduan.index') }}" class="text-sm text-slate-500 hover:text-slate-800 font-medium flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                Kembali ke Riwayat
+            </a>
+        </div>
 
         @if (session('success'))
-            <div class="mb-4 px-4 py-3 rounded bg-green-100 text-green-800">
+            <div class="mb-6 px-4 py-3 rounded-lg bg-green-50 text-green-700 border border-green-200 flex items-center shadow-sm">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                 {{ session('success') }}
             </div>
         @endif
 
-        <form action="{{ route('users.pengaduan.update', $pengaduan->id) }}" method="POST" enctype="multipart/form-data"
-            class="space-y-6">
+        <form action="{{ route('users.pengaduan.update', $pengaduan->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
 
             <!-- Judul -->
             <div>
-                <label for="judul" class="block text-sm font-medium text-gray-700 mb-1">Judul Pengaduan</label>
+                <label for="judul" class="block text-base font-semibold text-gray-700 mb-2">Judul Aspirasi / Keluhan <span class="text-red-500">*</span></label>
                 <input type="text" name="judul" id="judul"
-                    class="block w-full rounded border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                    value="{{ old('judul', $pengaduan->judul) }}" required>
-            </div>
-
-            <!-- Isi Pengaduan -->
-            <div>
-                <label for="isi" class="block text-sm font-medium text-gray-700 mb-1">Isi Pengaduan</label>
-                <textarea name="isi" id="isi" rows="5"
-                    class="block w-full rounded border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                    required>{{ old('isi', $pengaduan->isi) }}</textarea>
+                    class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition placeholder-gray-400"
+                    value="{{ old('judul', $pengaduan->judul) }}" required placeholder="Contoh: Lampu Jalan Mati di Gang 5" />
             </div>
 
             <!-- Kategori -->
             <div>
-                <label for="kategori_id" class="block text-sm font-medium text-gray-700 mb-1">Kategori <span
-                        class="text-red-500">*</span></label>
-                <select name="kategori_id" id="kategori_id"
-                    class="w-full border border-gray-300 rounded-lg p-3 bg-white text-black text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required>
-                    <option value="" disabled selected>- Pilih Kategori -</option>
-                    @forelse ($kategori as $item)
-                        <option value="{{ $item->id }}">{{ $item->name_kategori ?? 'Tanpa Nama' }}</option>
-                    @empty
-                        <option value="">Tidak ada kategori</option>
-                    @endforelse
-                </select>
-
-            </div>
-
-            <!-- Gambar -->
-            <div>
-                <label for="gambar" class="block text-sm font-medium text-gray-700 mb-1">Gambar (opsional)</label>
-                @if ($pengaduan->gambar)
-                    <div class="mb-2">
-                        <img src="{{ asset('storage/' . $pengaduan->gambar) }}" alt="Gambar Pengaduan"
-                            class="w-36 rounded shadow">
+                <label for="kategori_id" class="block text-base font-semibold text-gray-700 mb-2">Jenis Layanan / Bidang <span class="text-red-500">*</span></label>
+                <div class="relative">
+                    <select name="kategori_id" id="kategori_id"
+                        class="w-full border border-gray-300 rounded-xl p-3 bg-white text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none transition"
+                        required>
+                        <option value="" disabled selected>- Pilih Bidang Terkait -</option>
+                        @forelse ($kategori as $item)
+                            <option value="{{ $item->id }}" {{ $pengaduan->kategori_id == $item->id ? 'selected' : '' }}>
+                                {{ $item->name_kategori ?? 'Tanpa Nama' }}
+                            </option>
+                        @empty
+                            <option value="">Tidak ada kategori</option>
+                        @endforelse
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </div>
-                @endif
-                <input type="file" name="gambar" id="gambar"
-                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                </div>
             </div>
 
-            <!-- Lampiran -->
+            <!-- Isi Pengaduan -->
             <div>
-                <label for="lampiran" class="block text-sm font-medium text-gray-700 mb-1">Lampiran (opsional)</label>
-
-                @if ($pengaduan->lampiran && $pengaduan->lampiran->count())
-                    <ul class="mb-2 list-disc list-inside text-sm text-gray-700">
-                        @foreach ($pengaduan->lampiran as $lampiran)
-                            <li class="flex items-center space-x-2">
-                                <a href="{{ asset('storage/' . $lampiran->file_path) }}" target="_blank"
-                                    class="text-blue-600 hover:underline flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.586-6.586a4 4 0 10-5.656-5.656l-6.586 6.586"></path></svg>
-                                    {{ basename($lampiran->file_path) }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
-
-                <input type="file" name="lampiran[]" id="lampiran" multiple
-                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                <p class="text-xs text-gray-500 mt-1">Bisa upload beberapa file: <span class="font-medium">jpg, jpeg, png, pdf, docx</span></p>
+                <label for="isi" class="block text-base font-semibold text-gray-700 mb-2">Ceritakan Detail Masalah Anda <span class="text-red-500">*</span></label>
+                <textarea name="isi" id="isi" rows="6"
+                    class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition placeholder-gray-400 leading-relaxed"
+                    required placeholder="Jelaskan secara rinci lokasi dan kronologi masalah...">{{ old('isi', $pengaduan->isi) }}</textarea>
             </div>
 
-
-            <!-- Tombol Submit -->
-            <div class="flex space-x-3">
-                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Update
-                    Pengaduan</button>
-                <a href="{{ route('users.pengaduan.index') }}"
-                    class="px-6 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition">Batal</a>
+            <div class="pt-4 flex items-center justify-end gap-4 border-t border-gray-100">
+                <a href="{{ route('users.pengaduan.index') }}" class="px-6 py-2.5 rounded-xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
+                    Batal
+                </a>
+                <button type="submit"
+                    class="px-6 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl shadow-lg shadow-teal-200 transition transform active:scale-95">
+                    Simpan Perubahan
+                </button>
             </div>
         </form>
     </div>

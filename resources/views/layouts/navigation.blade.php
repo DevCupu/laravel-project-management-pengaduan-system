@@ -23,7 +23,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="relative group">
                         <span class="transition-colors duration-300 group-hover:text-indigo-600 ">
-                            {{ __('Dashboard') }}
+                            Beranda Saya
                         </span>
                         <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-500 transition-all duration-300"></span>
                     </x-nav-link>
@@ -66,7 +66,7 @@
                     </x-slot>
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            Profil Pengguna
                         </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -74,7 +74,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                Keluar Sesi
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -97,7 +97,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
-                {{ __('Dashboard') }}
+                Beranda Saya
             </x-responsive-nav-link>
         </div>
 
@@ -110,7 +110,7 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
-                    {{ __('Profile') }}
+                    Profil Pengguna
                 </x-responsive-nav-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
@@ -119,7 +119,7 @@
                             onclick="event.preventDefault();
                                         this.closest('form').submit();"
                             class="hover:text-red-600 dark:hover:text-red-400 transition-colors duration-300">
-                        {{ __('Log Out') }}
+                        Keluar Sesi
                     </x-responsive-nav-link>
                 </form>
             </div>

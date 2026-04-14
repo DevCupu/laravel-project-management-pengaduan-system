@@ -1,107 +1,99 @@
 @extends('layouts.users')
 
 @section('content')
-    <div class="max-w-6xl mx-auto mt-10">
-        <h1 class="text-3xl font-extrabold mb-8 text-indigo-500 flex items-center gap-2">
-            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M9 17v-2a4 4 0 014-4h4m0 0V7a4 4 0 00-4-4H7a4 4 0 00-4 4v10a4 4 0 004 4h4"></path>
-            </svg>
-            Daftar Pengaduan Anda
+    <div class="max-w-6xl mx-auto mt-10 px-4">
+        <h1 class="text-3xl font-extrabold mb-8 text-gray-900 flex items-center gap-2">
+            Riwayat Aspirasi Saya
         </h1>
 
         {{-- Section: Tambah Pengaduan --}}
         <div class="mb-8">
             <a href="{{ route('users.pengaduan.create') }}"
-                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition">
+                class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-bold rounded-xl shadow hover:bg-blue-700 transition active:scale-95">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
                 </svg>
-                Tambah Pengaduan
+                Sampaikan Aspirasi Baru
             </a>
         </div>
 
         @forelse ($pengaduans as $pengaduan)
             <div
-                class="bg-white shadow-lg p-6 rounded-xl mb-6 border-l-4 @if ($pengaduan->status == 'selesai') border-green-500 @elseif($pengaduan->status == 'proses') border-yellow-500 @else border-gray-300 @endif transition hover:shadow-xl">
-                <div class="flex items-center justify-between mb-2">
-                    <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3"></path>
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"
-                                fill="none" />
-                        </svg>
+                class="bg-white shadow-lg p-6 rounded-2xl mb-6 border-l-8
+                @if ($pengaduan->status == 'selesai') border-green-500
+                @elseif($pengaduan->status == 'diproses') border-blue-500
+                @else border-yellow-500 @endif transition hover:shadow-xl border border-gray-100">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">
                         {{ $pengaduan->judul }}
                     </h2>
                     <span
-                        class="px-3 py-1 rounded-full text-xs font-bold
+                        class="inline-flex items-center px-4 py-1 rounded-full text-xs font-black uppercase tracking-wider
                         @if ($pengaduan->status == 'selesai') bg-green-100 text-green-700
-                        @elseif($pengaduan->status == 'proses') bg-yellow-100 text-yellow-700
-                        @else bg-gray-100 text-gray-700 @endif">
-                        {{ ucfirst($pengaduan->status) }}
+                        @elseif($pengaduan->status == 'diproses') bg-blue-100 text-blue-700
+                        @else bg-yellow-100 text-yellow-700 @endif">
+                        @if ($pengaduan->status == 'selesai') Tuntas
+                        @elseif($pengaduan->status == 'diproses') Sedang Ditindak
+                        @else Menunggu @endif
                     </span>
                 </div>
+                
                 {{-- Status description --}}
-                <div class="mb-2">
-                    @if ($pengaduan->status == 'selesai')
-                        <span class="text-green-700 text-sm">Pengaduan telah selesai diproses terimkasih telah mengirim
-                            pengaduan, pihak terkait akan segera tindak lanjut</span>
-                    @elseif ($pengaduan->status == 'proses')
-                        <span class="text-yellow-700 text-sm">Pengaduan sedang dalam proses penanganan.</span>
-                    @else
-                        <span class="text-gray-700 text-sm">Pengaduan anda menunggu diproses oleh admin.</span>
-                    @endif
+                <div class="mb-4 p-3 rounded-lg @if($pengaduan->status == 'selesai') bg-green-50 @elseif($pengaduan->status == 'diproses') bg-blue-50 @else bg-yellow-50 @endif">
+                    <p class="text-sm font-medium">
+                        @if ($pengaduan->status == 'selesai')
+                            <span class="text-green-800">Alhamdulillah, aspirasi Anda telah tuntas ditangani oleh tim kami. Terima kasih atas partisipasinya!</span>
+                        @elseif ($pengaduan->status == 'diproses')
+                            <span class="text-blue-800">Laporan Anda sedang dalam tahap pengerjaan oleh tim terkait di lapangan.</span>
+                        @else
+                            <span class="text-yellow-800">Laporan telah kami terima. Mohon tunggu tim kami melakukan verifikasi data terlebih dahulu.</span>
+                        @endif
+                    </p>
                 </div>
-                <p class="text-gray-500 text-xs mb-2">
-                    <svg class="inline w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                        </path>
-                    </svg>
-                    {{ $pengaduan->created_at->format('d M Y, H:i') }}
-                </p>
-                <p class="mt-2 text-gray-700">{{ Str::limit($pengaduan->isi, 120) }}</p>
 
-                <div class="mt-4 flex justify-between items-center">
-                    <div class="flex gap-2">
+                <div class="flex items-center gap-4 text-xs text-gray-400 mb-4">
+                    <span class="flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                        {{ $pengaduan->created_at->format('d M Y') }}
+                    </span>
+                    <span class="px-2 py-0.5 bg-gray-100 rounded-md text-gray-600 font-semibold">{{ $pengaduan->kategori->name_kategori ?? 'Umum' }}</span>
+                </div>
+
+                <p class="text-gray-600 leading-relaxed">{{ Str::limit($pengaduan->isi, 150) }}</p>
+
+                <div class="mt-6 pt-6 border-t border-gray-100 flex flex-wrap gap-4 items-center justify-between">
+                    <div class="flex gap-4">
                         <a href="{{ route('users.pengaduan.show', $pengaduan->id) }}"
-                            class="text-blue-600 font-semibold hover:underline flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l7-7-7-7"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20"></path>
-                            </svg>
-                            Lihat Detail
+                            class="text-blue-600 font-bold hover:text-blue-800 flex items-center gap-1 text-sm">
+                            Detail Laporan
                         </a>
+                        @if($pengaduan->status == 'terkirim')
                         <a href="{{ route('users.pengaduan.edit', $pengaduan->id) }}"
-                            class="text-yellow-600 font-semibold hover:underline flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-2.828 0L5 11.828a2 2 0 010-2.828L13 5">
-                                </path>
-                            </svg>
-                            Edit
+                            class="text-yellow-600 font-bold hover:text-yellow-800 flex items-center gap-1 text-sm">
+                            Ubah
                         </a>
-                        <form action="{{ route('users.pengaduan.destroy', $pengaduan->id) }}" method="POST"
-                            onsubmit="return confirm('Yakin ingin menghapus pengaduan ini?')" class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="text-red-600 font-semibold hover:underline flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                                Hapus
-                            </button>
-                        </form>
+                        @endif
                     </div>
+                    
+                    @if($pengaduan->status == 'terkirim')
+                    <form action="{{ route('users.pengaduan.destroy', $pengaduan->id) }}" method="POST"
+                        onsubmit="return confirm('Apakah Anda yakin ingin membatalkan laporan ini?')" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="text-gray-400 font-bold hover:text-red-600 flex items-center gap-1 text-sm transition-colors">
+                            Batalkan
+                        </button>
+                    </form>
+                    @endif
                 </div>
             </div>
         @empty
-            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded text-yellow-800">
-                <p>Belum ada pengaduan yang Anda buat.</p>
+            <div class="bg-gray-50 border-2 border-dashed border-gray-200 p-12 rounded-3xl text-center">
+                <div class="text-5xl mb-4">📝</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Belum ada aspirasi terkirim</h3>
+                <p class="text-gray-500 mb-6 italic">Yuk, ikut berkontribusi membangun Malimongan dengan melaporkan kendala atau memberi saran di lingkungan Anda.</p>
+                <a href="{{ route('users.pengaduan.create') }}" class="text-blue-600 font-bold hover:underline">Mulai sampaikan aspirasi →</a>
             </div>
         @endforelse
     </div>
